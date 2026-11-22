@@ -1,0 +1,66 @@
+{
+  "version": 8,
+  "name": "players",
+  "nixpkgs": "nixos-unstable",
+  "routes": [
+    { "host": "plex", "port": 32400 },
+    { "host": "jellyfin", "port": 8096 },
+    { "host": "watchstate", "port": 8088 }
+  ],
+  "gpu": true,
+  "containers": true,
+  "ports": [{ "port": 32400, "from": ["lan"] }],
+  "variables": [
+    {
+      "name": "MEDIA_DIR",
+      "kind": "path",
+      "description": "The media libraries Plex and Jellyfin show. Its group becomes the stack's media group, which both read as.",
+      "required": true,
+      "mount": "/pool/media",
+      "group": "media"
+    }
+  ],
+  "backup": {
+    "folders": [
+      {
+        "label": "Plex settings",
+        "path": "/var/lib/plex",
+        "exclude": [
+          { "pattern": "/Plex Media Server/Metadata/**", "reason": "Posters and descriptions. Plex downloads them again." },
+          { "pattern": "/Plex Media Server/Media/**", "reason": "Preview thumbnails and other files Plex makes from the library." },
+          { "pattern": "/Plex Media Server/Cache/**", "reason": "Plex's cache. It fills again." },
+          { "pattern": "/Plex Media Server/Plug-in Support/Caches/**", "reason": "Plex's cache. It fills again." },
+          { "pattern": "/Plex Media Server/Codecs/**", "reason": "Codecs Plex downloads when it needs them." },
+          { "pattern": "/Plex Media Server/Drivers/**", "reason": "Graphics drivers Plex downloads when it needs them." },
+          { "pattern": "/Plex Media Server/Updates/**", "reason": "Downloaded updates." },
+          { "pattern": "/Plex Media Server/Logs/**", "reason": "Log files." },
+          { "pattern": "/Plex Media Server/Crash Reports/**", "reason": "Crash reports." },
+          { "pattern": "/Plex Media Server/Diagnostics/**", "reason": "Diagnostic files." }
+        ]
+      },
+      {
+        "label": "Jellyfin settings",
+        "path": "/var/lib/jellyfin",
+        "exclude": [
+          { "pattern": "/metadata/**", "reason": "Posters and descriptions. Jellyfin downloads them again." },
+          { "pattern": "/data/metadata/**", "reason": "Posters and descriptions. Jellyfin downloads them again." },
+          { "pattern": "/data/subtitles/**", "reason": "Downloaded subtitles. Jellyfin fetches them again." },
+          { "pattern": "/cache/**", "reason": "Jellyfin's cache. It fills again." },
+          { "pattern": "/log/**", "reason": "Log files." }
+        ]
+      },
+      {
+        "label": "WatchState settings",
+        "path": "/var/lib/watchstate",
+        "exclude": [
+          { "pattern": "/cache/**", "reason": "WatchState's cache. It fills again." },
+          { "pattern": "/logs/**", "reason": "Log files." },
+          { "pattern": "/profiler/**", "reason": "Diagnostic files." }
+        ]
+      }
+    ]
+  },
+  "health": {
+    "units": ["plex.service", "jellyfin.service", "podman-watchstate.service"]
+  }
+}
