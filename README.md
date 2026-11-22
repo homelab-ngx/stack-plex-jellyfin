@@ -79,7 +79,7 @@ An update is kept when all of this holds, and rolled back when it does not.
 - `jellyfin.service` is active.
 - `podman-watchstate.service` is active.
 
-Manifest version 8, built with nixpkgs `nixos-unstable`. Runs on [homelab-ngx](https://github.com/homelab-ngx/homelab-ngx).
+Manifest version 9, built with nixpkgs `nixos-unstable`. Runs on [homelab-ngx](https://github.com/homelab-ngx/homelab-ngx).
 
 <!-- manifest:end -->
 
@@ -87,3 +87,5 @@ Manifest version 8, built with nixpkgs `nixos-unstable`. Runs on [homelab-ngx](h
 
 MIT, see [LICENSE](LICENSE). Plex Media Server is not free software. nixpkgs
 builds it as an unfree package, which this stack allows.
+`icons/watchstate.png` is WatchState's logo, from
+[arabcoders/watchstate](https://github.com/arabcoders/watchstate) (MIT).

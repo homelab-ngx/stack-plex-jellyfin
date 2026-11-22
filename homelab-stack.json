@@ -1,7 +1,8 @@
 {
-  "version": 8,
+  "version": 9,
   "name": "players",
   "nixpkgs": "nixos-unstable",
+  "icon": "plex",
   "routes": [
     { "host": "plex", "port": 32400 },
     { "host": "jellyfin", "port": 8096 },
@@ -62,5 +63,10 @@
   },
   "health": {
     "units": ["plex.service", "jellyfin.service", "podman-watchstate.service"]
-  }
+  },
+  "services": [
+    { "unit": "plex.service", "icon": "plex" },
+    { "unit": "jellyfin.service", "icon": "jellyfin" },
+    { "unit": "podman-watchstate.service", "icon": "icons/watchstate.png" }
+  ]
 }
